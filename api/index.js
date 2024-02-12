@@ -1,4 +1,12 @@
 import express from "express";
+import mongoose from "mongoose";
+
+mongoose.connect("mongodb+srv://naveenantonyp:mech1032@cluster0.palocap.mongodb.net/property-website?retryWrites=true&w=majority").then(() => {
+    console.log('Connected to MongoDB!');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 const app = express();
 
