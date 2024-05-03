@@ -102,13 +102,19 @@ export default function Search() {
         if (isEditModeFromUrl && submitButtonRef.current) {
             submitButtonRef.current.click();
         }
+
+        if (!isEditMode) {
+            fetchListings();
+        }
             
 
-    }, [currentUser, location.search, location.state]);
+    }, [currentUser, location.search, location.state, isEditMode]);
 
     useEffect(() => {
-        fetchListings();
-    }, [sidebardata]);
+        if (isEditMode) {
+            fetchListings();
+        } 
+    }, [sidebardata, isEditMode]);
 
     const fetchListings = async () => {
         setLoading(true);
