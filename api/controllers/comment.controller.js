@@ -26,3 +26,23 @@ export const getComment = async (req, res, next) => {
       next(err);
     }
   };
+
+  export const deleteComment = async (req, res, next) => {
+    try {
+        const { commentId } = req.params;
+
+        if (!commentId || typeof commentId !== 'string') {
+            return res.status(400).json({ success: false, message: 'Invalid or missing commentId' });
+        }
+
+        const deletedComment = await Comment.findByIdAndDelete(commentId);
+
+        if (!deletedComment) {
+            return res.status(404).json({ success: false, message: 'Comment not found' });
+        }
+
+        res.status(200).json({ success: true, message: 'Comment deleted successfully' });
+    } catch (err) {
+        next(err);
+    }
+}

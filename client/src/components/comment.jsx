@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { MdDelete } from "react-icons/md";
 
 const Comments = ({ listingId }) => {
   const [comment, setComment] = useState('');
@@ -53,14 +54,36 @@ const Comments = ({ listingId }) => {
 
         if (response.ok) {
           const newComment = await response.json();
-          setComments([...comments, newComment]);
+          setComments((prevComments) => [...prevComments, newComment]);
           setComment('');
+  
+          // Fetch user information for the new comment
+          const userRes = await fetch(`/api/user/${newComment.userRef}`);
+          const userInfo = await userRes.json();
+          const commentWithUserInfo = { ...newComment, userInfo };
+          setComments((prevComments) => [...prevComments.slice(0, -1), commentWithUserInfo]);
         } else {
           console.error('Failed to submit comment');
         }
       } catch (error) {
         console.error('Error submitting comment:', error);
       }
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const response = await fetch(`/api/comment/${commentId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      } else {
+        console.error('Failed to delete comment');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
     }
   };
 
@@ -72,11 +95,18 @@ const Comments = ({ listingId }) => {
     <div key={index} className="bg-gray-100 p-4 rounded-md mb-2">
       <div className="flex items-center mb-2">
         <img
-          src={comment.userInfo.avatar}
+          src={comment.userInfo?.avatar || 'https://via.placeholder.com/50'} // Use a placeholder image if userInfo.avatar is undefined
           alt="Avatar"
           className="w-8 h-8 rounded-full mr-2"
         />
-        <span className="font-semibold">{comment.userInfo.username}</span>
+        <span className="font-semibold">{comment.userInfo?.username || 'Unknown User' } </span>  
+        {comment.userRef === currentUser._id && (
+                <button
+                  onClick={() => handleDeleteComment(comment._id)}
+                  className="ml-auto text-red-500 hover:text-red-700"
+                >
+                  <MdDelete className='scale-150' />
+                </button>)}
       </div>
       <p>{comment.comment}</p>
     </div>

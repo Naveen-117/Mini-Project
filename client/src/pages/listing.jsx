@@ -175,7 +175,7 @@ export default function Listing() {
 
   return (
     <main className='bg-gray-400'>
-      {loading && <p className="text-center my-7 text-2xl"><Spinner /></p>}
+      {loading && <span className="text-center my-7 text-2xl"><Spinner /></span>}
       {error && <p className="text-center my-7 text-2xl">Something went wrong...</p>}
       {listing && !loading && !error && (
         <div className="mb-8">
@@ -213,8 +213,13 @@ export default function Listing() {
                     ₹{+listing.regularPrice - +listing.discountPrice} OFF
                   </p>
                 )}
-                <div className='fixed top-[15%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
-                  <FaHeart onClick={handleWish} className="text-red-500 cursor-pointer" />
+                <div className='absolute top-[15%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
+                  <div className="relative group">
+                    <FaHeart onClick={handleWish} className="text-red-500 cursor-pointer group-hover:text-red-800" />
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 bg-gray-700 text-white text-sm px-2 py-1 rounded-md mt-2 opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100">
+                            Wishlist
+                      </span>  
+                  </div>
                 </div>
                 {!currentUser && <p className="font-semibold text-green-600"><span className="hover: underline"><Link to='/sign-in'>SIGN IN</Link></span> to book property</p>}
                 {currentUser && <button onClick={handleBookClick} className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>Book</button>}
@@ -225,10 +230,15 @@ export default function Listing() {
                   )
                 }
                 <div
-                  className='fixed top-[30%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'
+                  className='absolute top-[30%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'
                   onClick={handleShareClick}
                 >
-                  <FaShare />
+                  <div className="relative group">
+                      <FaShare className="group-hover:opacity-50" />
+                      <span className="absolute top-full left-1/2 -translate-x-1/2 bg-gray-700 text-white text-sm px-2 py-1 rounded-md mt-2 opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100">
+                            Share
+                      </span>
+                  </div>
                 </div>
                 {showSharePopup && (
                   <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50'>
