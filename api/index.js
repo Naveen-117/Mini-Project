@@ -6,6 +6,7 @@ import listingRouter from './routes/listing.route.js';
 import wishlistRouter from './routes/wishlist.route.js';
 import commentRouter from './routes/comment.route.js';
 import ratingRouter from './routes/rating.routes.js';
+import saveSearchRouter from './routes/saveSearch.route.js';
 import cookieParser from "cookie-parser";
 import nodemailer from 'nodemailer';
 import cors from 'cors';

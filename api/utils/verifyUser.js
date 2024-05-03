@@ -8,6 +8,7 @@ export const verifyToken = (req, res, next) => {
         jwt.verify(token, 'something1234', (err, user) => {
             if(err) return next(errorHandler(403, 'Forbidden'));
             req.user = user;
+            req.user._id = user.id; // Access the user's ID using the property name you used in the JWT payload
             next();
 
         });

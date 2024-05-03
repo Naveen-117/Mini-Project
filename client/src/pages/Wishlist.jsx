@@ -15,13 +15,10 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlists = async () => {
       try {
-        const res = await axios.get("/api/wishlist", {
-          headers: {
-            Authorization: `Bearer ${currentUser.accessToken}`,
-          },
-        });
-        console.log("Response data:", res.data); // Log the response data
-        setWishlists(res.data);
+        const res = await fetch('/api/wishlist/');
+        const data = await res.json();
+        console.log("Response data:", data); // Log the response data
+        setWishlists(data);
       } catch (err) {
         console.error("Error fetching wishlists:", err); // Log the error
         setError("Failed to fetch wishlists.");
@@ -67,7 +64,7 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 bg-gray-400">
+    <div className="mx-auto pl-20 bg-white">
       <h1 className="text-3xl font-semibold mb-4">Wishlist</h1>
       <div className="flex flex-wrap">
         {wishlists.length === 0 ? (
