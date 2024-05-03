@@ -11,9 +11,11 @@ import cookieParser from "cookie-parser";
 import nodemailer from 'nodemailer';
 import cors from 'cors';
 import Wishlist from "./models/wishlist.model.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 
-mongoose.connect("mongodb+srv://naveenantonyp:mech1032@cluster0.palocap.mongodb.net/property-website?retryWrites=true&w=majority").then(() => {
+mongoose.connect(process.env.MONGO).then(() => {
     console.log('Connected to MongoDB!');
 })
     .catch((err) => {
